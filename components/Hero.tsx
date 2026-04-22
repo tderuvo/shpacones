@@ -47,7 +47,7 @@ export function Hero() {
         }}
       >
         <Image
-          src="/album-cover.jpg"
+          src="/album-cover.png"
           alt=""
           fill
           priority
