@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { FilmGrain } from './FilmGrain';
 
-export function Hero() {
+export function Hero({ onEnterArchive }: { onEnterArchive?: () => void }) {
   const [archiveVisible, setArchiveVisible] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
@@ -194,6 +194,11 @@ export function Hero() {
       >
         <a
           href="#archive"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            onEnterArchive?.();
+          }}
           style={{
             fontFamily: "var(--font-cormorant), 'Garamond', 'Georgia', serif",
             fontStyle: 'italic',
@@ -202,7 +207,7 @@ export function Hero() {
             color: 'rgba(215, 200, 170, 0.58)',
             textDecoration: 'none',
             display: 'inline-block',
-            padding: '0.25rem 0',
+            padding: '0.6rem 1.2rem',
             borderBottom: '1px solid transparent',
             transition: 'color 0.5s ease, border-color 0.5s ease, filter 0.5s ease',
           }}

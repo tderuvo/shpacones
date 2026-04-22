@@ -11,6 +11,7 @@ html, body {
   height: 100%;
   background: #0c0a08;
   overflow-x: hidden;
+  overflow-y: hidden; /* released by JS on archive entry */
 }
 
 @keyframes kenBurns {
@@ -35,4 +36,22 @@ html, body {
   93%       { opacity: 0.94; }
   94%       { opacity: 1; }
   97%       { opacity: 0.97; }
+}
+
+@keyframes filmBurn {
+  0%   { opacity: 0;   background: rgba(200, 148, 48, 0); }
+  7%   { opacity: 1;   background: rgba(200, 148, 48, 0.17); }
+  13%  { opacity: 1;   background: rgba(200, 148, 48, 0.03); }
+  20%  { opacity: 1;   background: rgba(208, 158, 55, 0.15); }
+  26%  { opacity: 1;   background: rgba(200, 148, 48, 0.02); }
+  37%  { opacity: 1;   background: rgba(242, 218, 160, 0.88); }
+  54%  { opacity: 1;   background: rgba(242, 218, 160, 0.91); }
+  72%  { opacity: 1;   background: rgba(242, 218, 160, 0.76); }
+  88%  { opacity: 1;   background: rgba(242, 218, 160, 0.28); }
+  100% { opacity: 0;   background: rgba(242, 218, 160, 0); }
+}
+
+@keyframes archiveTextIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

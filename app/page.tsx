@@ -1,5 +1,5 @@
-import { Hero } from '@/components/Hero';
+import { ShpaconesPage } from '@/components/ShpaconesPage';
 
 export default function Home() {
-  return <Hero />;
+  return <ShpaconesPage />;
 }
