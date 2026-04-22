@@ -7,6 +7,7 @@ import { FilmGrain } from './FilmGrain';
 export function Hero() {
   const [archiveVisible, setArchiveVisible] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   useEffect(() => {
@@ -14,17 +15,26 @@ export function Hero() {
     return () => clearTimeout(t);
   }, []);
 
-  function startAudio() {
-    if (!audioStarted && audioRef.current) {
-      audioRef.current.volume = 0.055;
-      audioRef.current.play().catch(() => {});
+  function toggleAudio() {
+    const a = audioRef.current;
+    if (!a) return;
+    if (!audioStarted) {
+      a.volume = 0.18;
+      a.play().catch(() => {});
       setAudioStarted(true);
+      setAudioPlaying(true);
+    } else if (audioPlaying) {
+      a.pause();
+      setAudioPlaying(false);
+    } else {
+      a.play().catch(() => {});
+      setAudioPlaying(true);
     }
   }
 
   return (
     <section
-      onClick={startAudio}
+      onClick={toggleAudio}
       style={{
         position: 'relative',
         width: '100vw',
@@ -213,9 +223,45 @@ export function Hero() {
         </a>
       </div>
 
+      {/* Tape hiss toggle — bottom right */}
+      {audioStarted && (
+        <button
+          onClick={(e) => { e.stopPropagation(); toggleAudio(); }}
+          style={{
+            position: 'absolute',
+            bottom: '2.2rem',
+            right: '2.2rem',
+            zIndex: 40,
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '0.25rem 0',
+            fontFamily: "var(--font-cormorant), 'Garamond', 'Georgia', serif",
+            fontStyle: 'italic',
+            fontSize: '0.72rem',
+            letterSpacing: '0.28em',
+            color: audioPlaying ? 'rgba(210, 195, 160, 0.45)' : 'rgba(210, 195, 160, 0.25)',
+            borderBottom: '1px solid transparent',
+            transition: 'color 0.4s ease, border-color 0.4s ease',
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget;
+            el.style.color = 'rgba(225, 210, 175, 0.75)';
+            el.style.borderBottomColor = 'rgba(200, 180, 130, 0.3)';
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget;
+            el.style.color = audioPlaying ? 'rgba(210, 195, 160, 0.45)' : 'rgba(210, 195, 160, 0.25)';
+            el.style.borderBottomColor = 'transparent';
+          }}
+        >
+          {audioPlaying ? '∿ silence' : '∿ hiss'}
+        </button>
+      )}
+
       {/* Tape hiss — plays on first interaction, drop tape-hiss.mp3 into /public */}
       {/* To disable: remove the <audio> element below */}
-      <audio ref={audioRef} src="/tape-hiss.mp3" loop preload="none" />
+      <audio ref={audioRef} src="/tape-hiss.mp3" loop preload="auto" />
     </section>
   );
 }
