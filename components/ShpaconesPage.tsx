@@ -29,10 +29,7 @@ export function ShpaconesPage() {
       setHeroOpacity(0.15);
       const archive = document.getElementById('archive');
       if (archive) {
-        window.scrollTo({
-          top: archive.offsetTop,
-          behavior: 'smooth',
-        });
+        archive.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
       setArchiveRevealed(true);
     }, 680);
