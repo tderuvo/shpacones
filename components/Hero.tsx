@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import Image from 'next/image';
 import { FilmGrain } from './FilmGrain';
 
-export function Hero({ onEnterArchive }: { onEnterArchive?: () => void }) {
+export function Hero({ onEnterArchive, heroOpacity = 1 }: { onEnterArchive?: () => void; heroOpacity?: number }) {
   const [archiveVisible, setArchiveVisible] = useState(false);
   const [audioStarted, setAudioStarted] = useState(false);
   const [audioPlaying, setAudioPlaying] = useState(false);
@@ -45,6 +45,8 @@ export function Hero({ onEnterArchive }: { onEnterArchive?: () => void }) {
         alignItems: 'center',
         justifyContent: 'center',
         cursor: 'default',
+        opacity: heroOpacity,
+        transition: 'opacity 1.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)',
       }}
     >
       {/* Album cover — Ken Burns */}

@@ -7,6 +7,7 @@ import { ArchiveOpening } from './ArchiveOpening';
 export function ShpaconesPage() {
   const [burning, setBurning] = useState(false);
   const [archiveRevealed, setArchiveRevealed] = useState(false);
+  const [heroOpacity, setHeroOpacity] = useState(1);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   useEffect(() => {
@@ -24,8 +25,15 @@ export function ShpaconesPage() {
     setBurning(true);
 
     const t1 = setTimeout(() => {
+      // Begin fade-out of hero and smooth scroll to archive
+      setHeroOpacity(0.15);
       const archive = document.getElementById('archive');
-      if (archive) window.scrollTo(0, archive.offsetTop);
+      if (archive) {
+        window.scrollTo({
+          top: archive.offsetTop,
+          behavior: 'smooth',
+        });
+      }
       setArchiveRevealed(true);
     }, 680);
 
@@ -55,7 +63,7 @@ export function ShpaconesPage() {
         }}
       />
 
-      <Hero onEnterArchive={handleEnterArchive} />
+      <Hero onEnterArchive={handleEnterArchive} heroOpacity={heroOpacity} />
       <ArchiveOpening visible={archiveRevealed} />
     </>
   );
