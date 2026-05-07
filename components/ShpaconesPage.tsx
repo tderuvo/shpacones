@@ -5,6 +5,7 @@ import { Hero } from './Hero';
 import { ArchiveOpening } from './ArchiveOpening';
 import { TapeTable } from './TapeTable';
 import { BasementMemory } from './BasementMemory';
+import { BackstageMemory } from './BackstageMemory';
 
 export function ShpaconesPage() {
   const [burning, setBurning] = useState(false);
@@ -66,6 +67,7 @@ export function ShpaconesPage() {
       <ArchiveOpening visible={archiveRevealed} />
       <TapeTable />
       <BasementMemory />
+      <BackstageMemory />
     </>
   );
 }

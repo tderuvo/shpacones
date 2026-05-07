@@ -78,3 +78,8 @@ html, body {
   0%, 100% { transform: rotate(-1.8deg) translateY(0px); }
   50%       { transform: rotate(-1.8deg) translateY(-4px); }
 }
+
+@keyframes memoryFloatB {
+  0%, 100% { transform: rotate(1.4deg) translateY(0px); }
+  50%       { transform: rotate(1.4deg) translateY(-4px); }
+}
