@@ -41,7 +41,7 @@ function formatTime(sec: number): string {
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
 
-function SideLabel({ label }: { label: string }) {
+function SideLabel({ label, isMobile = false }: { label: string; isMobile?: boolean }) {
   return (
     <p
       style={{
@@ -49,7 +49,7 @@ function SideLabel({ label }: { label: string }) {
         fontSize: '0.5rem',
         letterSpacing: '0.58em',
         textTransform: 'uppercase',
-        color: 'rgba(178, 148, 82, 0.38)',
+        color: isMobile ? 'rgba(188, 158, 88, 0.58)' : 'rgba(178, 148, 82, 0.38)',
         marginBottom: '0.75rem',
         paddingLeft: '0.5em',
         userSelect: 'none',
@@ -64,10 +64,12 @@ function TrackItem({
   track,
   isSelected,
   onSelect,
+  isMobile = false,
 }: {
   track: Track;
   isSelected: boolean;
   onSelect: () => void;
+  isMobile?: boolean;
 }) {
   const [hovered, setHovered] = useState(false);
   const active = isSelected || hovered;
@@ -84,7 +86,8 @@ function TrackItem({
         display: 'flex',
         alignItems: 'baseline',
         gap: '0.6em',
-        padding: '0.28em 0.5em 0.28em 0.3em',
+        // Larger tap target on mobile
+        padding: isMobile ? '0.48em 0.5em 0.48em 0.3em' : '0.28em 0.5em 0.28em 0.3em',
         borderRadius: '2px',
         cursor: 'pointer',
         transition: 'background 0.3s ease, box-shadow 0.3s ease',
@@ -103,8 +106,11 @@ function TrackItem({
           fontFamily: "var(--font-cormorant), 'Garamond', serif",
           fontSize: 'clamp(0.55rem, 0.85vw, 0.68rem)',
           letterSpacing: '0.06em',
+          // Brighter on mobile when not selected
           color: isSelected
             ? 'rgba(215, 175, 90, 0.72)'
+            : isMobile
+            ? 'rgba(168, 138, 75, 0.65)'
             : 'rgba(145, 115, 62, 0.44)',
           flexShrink: 0,
           lineHeight: 1,
@@ -123,10 +129,13 @@ function TrackItem({
           fontSize: 'clamp(0.88rem, 1.4vw, 1.08rem)',
           lineHeight: 1.35,
           letterSpacing: '0.015em',
+          // Brighter default on mobile; selected/hovered unchanged
           color: isSelected
             ? 'rgba(225, 190, 108, 0.96)'
             : hovered
             ? 'rgba(210, 182, 128, 0.82)'
+            : isMobile
+            ? 'rgba(208, 180, 122, 0.85)'
             : 'rgba(188, 162, 108, 0.62)',
           transition: 'color 0.25s ease, filter 0.25s ease',
           filter: isSelected
@@ -194,9 +203,19 @@ export function TapeTable() {
   const [isPlaying,    setIsPlaying]    = useState(false);
   const [currentTime,  setCurrentTime]  = useState(0);
   const [duration,     setDuration]     = useState(0);
+  const [isMobile,     setIsMobile]     = useState(false);
 
   const audioRef      = useRef<HTMLAudioElement>(null);
   const engageTimer   = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Detect mobile viewport — drives panel and text contrast adjustments
+  useEffect(() => {
+    const mq = window.matchMedia('(max-width: 768px)');
+    setIsMobile(mq.matches);
+    const handler = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
 
   // Bind audio element events once on mount
   useEffect(() => {
@@ -395,12 +414,25 @@ export function TapeTable() {
         {/* Side A + B columns */}
         <div style={{
           display: 'flex',
-          gap: 'clamp(1.8rem, 5vw, 4.5rem)',
+          gap: isMobile ? '1.2rem' : 'clamp(1.8rem, 5vw, 4.5rem)',
           alignItems: 'flex-start',
           flexWrap: 'wrap',
         }}>
-          <div style={{ minWidth: '10rem' }}>
-            <SideLabel label="Side A" />
+          {/* Side A panel */}
+          <div style={{
+            minWidth: '10rem',
+            ...(isMobile && {
+              width: '100%',
+              background: 'rgba(28, 18, 10, 0.60)',
+              border: '1px solid rgba(162, 132, 68, 0.18)',
+              borderRadius: '3px',
+              padding: '0.85rem 1rem 0.75rem',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              boxSizing: 'border-box' as const,
+            }),
+          }}>
+            <SideLabel label="Side A" isMobile={isMobile} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.06rem' }}>
               {SIDE_A.map(track => (
                 <TrackItem
@@ -408,20 +440,37 @@ export function TapeTable() {
                   track={track}
                   isSelected={selectedTrack?.title === track.title}
                   onSelect={() => handleTrackSelect(track)}
+                  isMobile={isMobile}
                 />
               ))}
             </div>
           </div>
 
-          <div style={{
-            width: '1px',
-            alignSelf: 'stretch',
-            flexShrink: 0,
-            background: 'linear-gradient(to bottom, transparent 0%, rgba(155, 128, 68, 0.16) 30%, rgba(155, 128, 68, 0.16) 70%, transparent 100%)',
-          }} />
+          {/* Divider — hidden on mobile where panels stack */}
+          {!isMobile && (
+            <div style={{
+              width: '1px',
+              alignSelf: 'stretch',
+              flexShrink: 0,
+              background: 'linear-gradient(to bottom, transparent 0%, rgba(155, 128, 68, 0.16) 30%, rgba(155, 128, 68, 0.16) 70%, transparent 100%)',
+            }} />
+          )}
 
-          <div style={{ minWidth: '10rem' }}>
-            <SideLabel label="Side B" />
+          {/* Side B panel */}
+          <div style={{
+            minWidth: '10rem',
+            ...(isMobile && {
+              width: '100%',
+              background: 'rgba(28, 18, 10, 0.60)',
+              border: '1px solid rgba(162, 132, 68, 0.18)',
+              borderRadius: '3px',
+              padding: '0.85rem 1rem 0.75rem',
+              backdropFilter: 'blur(8px)',
+              WebkitBackdropFilter: 'blur(8px)',
+              boxSizing: 'border-box' as const,
+            }),
+          }}>
+            <SideLabel label="Side B" isMobile={isMobile} />
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.06rem' }}>
               {SIDE_B.map(track => (
                 <TrackItem
@@ -429,6 +478,7 @@ export function TapeTable() {
                   track={track}
                   isSelected={selectedTrack?.title === track.title}
                   onSelect={() => handleTrackSelect(track)}
+                  isMobile={isMobile}
                 />
               ))}
             </div>
