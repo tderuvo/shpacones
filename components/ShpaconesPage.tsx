@@ -6,6 +6,7 @@ import { ArchiveOpening } from './ArchiveOpening';
 import { TapeTable } from './TapeTable';
 import { BasementMemory } from './BasementMemory';
 import { BackstageMemory } from './BackstageMemory';
+import { RoadRemains } from './RoadRemains';
 
 export function ShpaconesPage() {
   const [burning, setBurning] = useState(false);
@@ -68,6 +69,7 @@ export function ShpaconesPage() {
       <TapeTable />
       <BasementMemory />
       <BackstageMemory />
+      <RoadRemains />
     </>
   );
 }
