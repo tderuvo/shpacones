@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import Image from 'next/image';
 import { FilmGrain } from './FilmGrain';
 
 export function Hero({ onEnterArchive, heroOpacity = 1 }: { onEnterArchive?: () => void; heroOpacity?: number }) {
@@ -58,13 +57,14 @@ export function Hero({ onEnterArchive, heroOpacity = 1 }: { onEnterArchive?: () 
           animation: 'kenBurns 32s ease-in-out infinite alternate',
         }}
       >
-        <Image
+        <img
           src="/album-cover.png"
           alt=""
-          fill
-          priority
-          quality={95}
           style={{
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
             objectFit: 'cover',
             objectPosition: 'center 30%',
             filter: 'sepia(18%) saturate(78%) brightness(0.87) contrast(1.04)',

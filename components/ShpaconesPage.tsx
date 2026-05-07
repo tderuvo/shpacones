@@ -3,6 +3,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { Hero } from './Hero';
 import { ArchiveOpening } from './ArchiveOpening';
+import { TapeTable } from './TapeTable';
 
 export function ShpaconesPage() {
   const [burning, setBurning] = useState(false);
@@ -62,6 +63,7 @@ export function ShpaconesPage() {
 
       <Hero onEnterArchive={handleEnterArchive} heroOpacity={heroOpacity} />
       <ArchiveOpening visible={archiveRevealed} />
+      <TapeTable />
     </>
   );
 }
