@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { ScrapbookPhoto } from './ScrapbookPhoto';
 
 // ── Tape corner strip ──────────────────────────────────────────────────────────
 
@@ -181,57 +182,21 @@ export function BasementMemory() {
           }}
         >
           {/* ── Photo ── */}
-          <div
-            style={{
-              flexShrink: 0,
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateX(0)' : 'translateX(-16px)',
-              transition: 'opacity 1.6s ease 0.35s, transform 1.6s ease 0.35s',
-            }}
+          <ScrapbookPhoto
+            src="/images/archive/jamming-in-nats-basement.png"
+            rotation={-1.8}
+            floatAnimation="memoryFloat 10s ease-in-out 1.2s infinite"
+            imgFilter="sepia(16%) saturate(80%) brightness(0.93) contrast(1.03)"
+            imgWidth="clamp(240px, 36vw, 450px)"
+            visible={visible}
+            revealFrom="left"
+            revealDelay="0.35s"
           >
-            {/*
-              Inner wrapper: holds rotation + float animation.
-              The animation keyframe must include rotate() so it owns the full
-              transform stack — no conflict with the reveal translateX above.
-            */}
-            <div
-              style={{
-                position: 'relative',
-                display: 'inline-block',
-                // Heavier bottom padding mimics film print border
-                padding: '9px 9px 26px',
-                background: 'rgba(250, 246, 240, 0.96)',
-                boxShadow: [
-                  '5px 8px 26px rgba(36, 22, 6, 0.26)',
-                  '1px 2px 8px rgba(36, 22, 6, 0.14)',
-                  '-1px -1px 4px rgba(36, 22, 6, 0.06)',
-                ].join(', '),
-                transform: 'rotate(-1.8deg)',
-                animation: visible
-                  ? 'memoryFloat 10s ease-in-out 1.2s infinite'
-                  : 'none',
-              }}
-            >
-              {/* Tape corners */}
-              <TapeStrip style={{ top: '-5px', left: '20px', transform: 'rotate(-1.5deg)' }} />
-              <TapeStrip style={{ top: '-5px', right: '20px', transform: 'rotate(2.2deg)' }} />
-              <TapeStrip style={{ bottom: '-5px', left: '20px', transform: 'rotate(1.8deg)' }} />
-              <TapeStrip style={{ bottom: '-5px', right: '20px', transform: 'rotate(-1.5deg)' }} />
-
-              <img
-                src="/images/archive/jamming-in-nats-basement.png"
-                alt=""
-                style={{
-                  display: 'block',
-                  width: 'clamp(240px, 36vw, 450px)',
-                  height: 'auto',
-                  // Subtle vintage: slight warmth, muted saturation, softened contrast
-                  filter:
-                    'sepia(16%) saturate(80%) brightness(0.93) contrast(1.03)',
-                }}
-              />
-            </div>
-          </div>
+            <TapeStrip style={{ top: '-5px', left: '20px', transform: 'rotate(-1.5deg)' }} />
+            <TapeStrip style={{ top: '-5px', right: '20px', transform: 'rotate(2.2deg)' }} />
+            <TapeStrip style={{ bottom: '-5px', left: '20px', transform: 'rotate(1.8deg)' }} />
+            <TapeStrip style={{ bottom: '-5px', right: '20px', transform: 'rotate(-1.5deg)' }} />
+          </ScrapbookPhoto>
 
           {/* ── Quote fragment ── */}
           <div

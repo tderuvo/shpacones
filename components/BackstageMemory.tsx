@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef } from 'react';
+import { ScrapbookPhoto } from './ScrapbookPhoto';
 
 // ── Tape corner strip ──────────────────────────────────────────────────────────
 
@@ -270,57 +271,19 @@ export function BackstageMemory() {
           </div>
 
           {/* ── Photo — second in DOM, appears right on desktop ── */}
-          <div
-            style={{
-              flexShrink: 0,
-              opacity: visible ? 1 : 0,
-              transform: visible ? 'translateX(0)' : 'translateX(16px)',
-              transition: 'opacity 1.6s ease 0.62s, transform 1.6s ease 0.62s',
-            }}
+          <ScrapbookPhoto
+            src="/images/archive/rosie-red-backstage.png"
+            rotation={1.4}
+            floatAnimation="memoryFloatB 11s ease-in-out 1.4s infinite"
+            imgFilter="sepia(20%) saturate(75%) brightness(0.91) contrast(1.05)"
+            imgWidth="clamp(240px, 36vw, 450px)"
+            visible={visible}
+            revealFrom="right"
+            revealDelay="0.62s"
           >
-            {/*
-              Rotation is +1.4deg (opposite to entry 01's -1.8deg).
-              memoryFloatB keyframe embeds the same rotation so it owns
-              the full transform stack — no conflict with the reveal above.
-            */}
-            <div
-              style={{
-                position: 'relative',
-                display: 'inline-block',
-                padding: '9px 9px 26px',
-                background: 'rgba(248, 244, 238, 0.95)',
-                boxShadow: [
-                  '-5px 8px 26px rgba(36, 22, 6, 0.24)',
-                  '-1px 2px 8px rgba(36, 22, 6, 0.13)',
-                  '1px -1px 4px rgba(36, 22, 6, 0.05)',
-                ].join(', '),
-                transform: 'rotate(1.4deg)',
-                animation: visible
-                  ? 'memoryFloatB 11s ease-in-out 1.4s infinite'
-                  : 'none',
-              }}
-            >
-              {/*
-                Two tape strips — diagonal pair (top-left + bottom-right)
-                instead of all four corners. Feels more hastily placed.
-              */}
-              <TapeStrip style={{ top: '-5px', left: '22px', transform: 'rotate(-2deg)' }} />
-              <TapeStrip style={{ bottom: '-5px', right: '22px', transform: 'rotate(-1.8deg)' }} />
-
-              <img
-                src="/images/archive/rosie-red-backstage.png"
-                alt=""
-                style={{
-                  display: 'block',
-                  width: 'clamp(240px, 36vw, 450px)',
-                  height: 'auto',
-                  // Slightly different vintage treatment from entry 01
-                  filter:
-                    'sepia(20%) saturate(75%) brightness(0.91) contrast(1.05)',
-                }}
-              />
-            </div>
-          </div>
+            <TapeStrip style={{ top: '-5px', left: '22px', transform: 'rotate(-2deg)' }} />
+            <TapeStrip style={{ bottom: '-5px', right: '22px', transform: 'rotate(-1.8deg)' }} />
+          </ScrapbookPhoto>
         </div>
       </div>
 
