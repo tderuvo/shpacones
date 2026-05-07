@@ -73,3 +73,8 @@ html, body {
   0%, 100% { opacity: 0.90; box-shadow: 0 0 7px rgba(215, 172, 72, 0.55); }
   50%       { opacity: 0.55; box-shadow: 0 0 3px rgba(215, 172, 72, 0.22); }
 }
+
+@keyframes memoryFloat {
+  0%, 100% { transform: rotate(-1.8deg) translateY(0px); }
+  50%       { transform: rotate(-1.8deg) translateY(-4px); }
+}
