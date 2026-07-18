@@ -7,6 +7,7 @@ import { TapeTable } from './TapeTable';
 import { BasementMemory } from './BasementMemory';
 import { BackstageMemory } from './BackstageMemory';
 import { RoadRemains } from './RoadRemains';
+import { NextGigMemory } from './NextGigMemory';
 
 export function ShpaconesPage() {
   const [burning, setBurning] = useState(false);
@@ -70,6 +71,7 @@ export function ShpaconesPage() {
       <BasementMemory />
       <BackstageMemory />
       <RoadRemains />
+      <NextGigMemory />
     </>
   );
 }

@@ -89,6 +89,11 @@ html, body {
   50%       { transform: rotate(-2.2deg) translateY(-4px); }
 }
 
+@keyframes memoryFloatD {
+  0%, 100% { transform: rotate(1.9deg) translateY(0px); }
+  50%       { transform: rotate(1.9deg) translateY(-4px); }
+}
+
 @keyframes scrapFocusOverlay {
   from { opacity: 0; }
   to   { opacity: 1; }
