@@ -8,6 +8,7 @@ import { BasementMemory } from './BasementMemory';
 import { BackstageMemory } from './BackstageMemory';
 import { RoadRemains } from './RoadRemains';
 import { NextGigMemory } from './NextGigMemory';
+import { WorldTour1994 } from './WorldTour1994';
 
 export function ShpaconesPage() {
   const [burning, setBurning] = useState(false);
@@ -72,6 +73,7 @@ export function ShpaconesPage() {
       <BackstageMemory />
       <RoadRemains />
       <NextGigMemory />
+      <WorldTour1994 />
     </>
   );
 }

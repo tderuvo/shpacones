@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 
 interface ScrapbookPhotoProps {
   src: string;
+  alt?: string;            // defaults to decorative ('')
   rotation: number;        // degrees; sign determines shadow direction
   floatAnimation: string;  // full CSS animation value, e.g. 'memoryFloat 10s ...'
   imgFilter: string;       // CSS filter string
@@ -20,6 +21,7 @@ interface ScrapbookPhotoProps {
 
 export function ScrapbookPhoto({
   src,
+  alt = '',
   rotation,
   floatAnimation,
   imgFilter,
@@ -110,7 +112,7 @@ export function ScrapbookPhoto({
           {children}
           <img
             src={src}
-            alt=""
+            alt={alt}
             style={{ display: 'block', width: imgWidth, height: 'auto', filter: imgFilter }}
           />
         </div>
@@ -165,7 +167,7 @@ export function ScrapbookPhoto({
             >
               <img
                 src={src}
-                alt=""
+                alt={alt}
                 style={{
                   display: 'block',
                   width: 'min(72vw, 68vh)',
